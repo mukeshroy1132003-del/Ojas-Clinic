@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Ojas Clinic GBP Calendar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,6 +59,11 @@ select{font:inherit;font-size:14px;padding:6px 8px;border-radius:6px;border:1px 
 .cap-foot{display:flex;gap:10px;align-items:center;font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
 button{font:inherit;font-size:13px;padding:6px 12px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.imgp{display:grid;gap:6px;max-width:75ch}
+.imgp-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cap.small{font-size:13px;color:var(--ink);border-style:dashed}
+button.ghost{background:transparent;color:var(--accent)}
 .src{font-size:12.5px;color:var(--muted)}
 .src a{color:var(--accent)}
 @media (max-width:560px){.post{grid-template-columns:1fr}.date{flex-direction:row;border-right:0;border-bottom:1px solid var(--line);justify-content:flex-start;gap:10px;padding:10px 16px}.date label{margin:0 0 0 auto}.date .dd{font-size:22px}}
@@ -70,7 +74,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
   <header>
     <div class="eyebrow">Google Business Profile · Ojas Clinic, Jabalpur</div>
     <h1>30 naye posts · 2 Oct se 9 Dec 2026</h1>
-    <p class="lede">Hafte me 3 post (Mon / Wed / Fri). Har topic aisa chuna hai jo profile par abhi tak nahi aaya, ya naye angle se aa raha hai. Caption copy karo, design banao, post karo, aur "Posted" tick kar do.</p>
+    <p class="lede">Hafte me 3 post (Mon / Wed / Fri). Har topic aisa chuna hai jo profile par abhi tak nahi aaya, ya naye angle se aa raha hai. Caption aur image prompt copy karo, design banao, post karo, aur "Posted" tick kar do.</p>
     <div class="stats" id="stats"></div>
   </header>
 
@@ -83,6 +87,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
         <li>Same image ya same caption dobara upload mat karo. 5 Signs wali post isi wajah se reject hui thi (shayad).</li>
         <li>Template ka color/layout badlo. Pichhle 2 mahine ke saare posts ek hi green-cream design me hain.</li>
         <li><span class="tag warn">Clinic se confirm</span> wale posts tabhi daalo jab clinic ye service sach me deta ho.</li>
+        <li>Image prompts ChatGPT / Gemini / Ideogram me chalenge. Hindi text AI sahi nahi likhta, isliye Hindi posts me text Canva me add karo. Doctor aur clinic wali posts me real photo use karo, AI se unka chehra mat banao. Logo hamesha Canva me lagao.</li>
         <li>"Learn more" CTA ke liye website ka service page link chahiye. Link na ho toh "Call now" use karo.</li>
       </ul>
     </section>
@@ -442,6 +447,40 @@ cap:`Ojas Clinic, जबलपुर के अंदर एक नज़र ड
 अपॉइंटमेंट बुक करें।`}
 ];
 
+const BASE=" Landscape 4:3 (1200x900), clean medical-aesthetic social media graphic, soft studio lighting, high detail, natural Indian skin tones, no watermark, no distorted hands, leave a clear area in the top-right corner for a clinic logo.";
+const IMG=[
+"Close-up of an Indian young adult's forearm and neck with a subtle circular reddish ringworm-style patch, rendered as a gentle medical illustration (not graphic), light rain droplets on a window in the soft-focus background to suggest monsoon, calm blue and white palette. Leave the left 40% as clean empty space for Hindi headline text (to be added later in Canva). No text in the image."+BASE,
+"SHOOT BRIEF (real photo, do not use AI for the doctor's face): Dr. Hitesh Lokwani seated at his consultation desk, smiling at camera, white coat or formal shirt, clinic signage softly visible behind, natural window light, shot at eye level. FRAME PROMPT for Canva/AI background: Minimal white and deep-teal frame with a thin gold line, name plate area at the bottom reading \"Meet Dr. Hitesh Lokwani\" and \"Senior Dermatologist, Ojas Clinic, Jabalpur\", empty photo slot in the center."+BASE,
+"Macro photo-style illustration of an Indian man's dark hair and scalp with fine white dandruff flakes on a dark shirt shoulder, a hand scratching the scalp, clean slate-grey background, three small numbered icon circles on the right side (magnifying glass, shampoo bottle, doctor stethoscope). Bold headline text at top: \"Dandruff that keeps coming back?\""+BASE,
+"Festive Navratri themed beauty graphic: smiling Indian woman in a colourful chaniya choli with mirror work, glowing healthy skin, holding dandiya sticks, background of marigold garlands and warm saffron-maroon bokeh lights. Leave the right 40% as empty warm-coloured space for Hindi headline text (added later in Canva). No text in the image."+BASE,
+"Clean medical illustration of small skin tags on the side of a neck and a common wart on a finger, shown as simple, non-graphic vector-style drawings on a light mint background, a dermatologist's gloved hand holding a sterile instrument at the side (not touching skin). Headline text at top: \"Warts & Skin Tags: Safe Removal\""+BASE,
+"Indian woman gently holding her inner elbow which shows mild dry, reddish, flaky eczema patches, soft neutral beige-grey background, a jar of plain unbranded moisturiser beside her, calm and reassuring mood. Headline text at top: \"Dry, Itchy, Red Patches? It Could Be Eczema\""+BASE,
+"Flat-lay illustration on a vanity table: a used makeup sponge, micellar water bottle, cotton pads with makeup smudges, a moisturiser jar and a pair of dandiya sticks with a small garland, warm festive colours (maroon, mustard, teal), top-down view, with four empty numbered step boxes on the side. Leave space for Hindi text (added later). No text in the image."+BASE,
+"Split layout FAQ graphic: on the left, a professional laser hair reduction handpiece gliding over an Indian woman's smooth underarm/arm in a clean treatment room with cooling gel; on the right, four empty speech-bubble shaped boxes for questions. Palette: cool white, soft lavender and charcoal. Headline text: \"Laser Hair Reduction: Your Questions Answered\""+BASE,
+"Respectful illustration of an Indian man's elbow and scalp showing mild silvery-red psoriasis plaques, non-graphic, calm blue-grey background, a small shield icon and a calendar icon suggesting long-term care. Headline text: \"Psoriasis Is Not Contagious. It Is Treatable.\""+BASE,
+"SHOOT BRIEF (real photo, do not use AI for the doctor's face): Dr. Shweta Lokwani in consultation with a female patient (with written consent) or examining skin with a dermatoscope, warm natural light, both relaxed, clinic interior softly blurred. FRAME PROMPT: Soft blush-pink and deep-green frame, name area at the bottom reading \"Meet Dr. Shweta Lokwani\" and \"Dermatologist, Ojas Clinic, Jabalpur\", empty photo slot in the center."+BASE,
+"Portrait of an Indian woman in her 30s with mild symmetrical brown melasma patches on her cheeks, one side of the image with a soft sun glare overlay to suggest sun trigger, the other side calm shade, palette of sand, warm brown and cream white. Headline text: \"Melasma: Why Those Brown Patches Keep Returning\""+BASE,
+"Clean medical illustration of the back of a man's head showing a single round, coin-sized smooth bald patch in otherwise dark hair, simple scalp cross-section diagram inset showing a hair follicle, calm teal and white palette. Leave the left side empty for Hindi headline text (added later). No text in the image."+BASE,
+"Indian woman looking at her forearm with raised, pale-red hive-like welts (urticaria), mild and non-graphic, clean light-yellow background with small icons around her: food plate, pill, insect, cloud (possible triggers). Leave space at top for Hindi headline (added later). No text in the image."+BASE,
+"Diwali-themed skin glow graphic: Indian woman with fresh, dewy, even-toned skin lying back during a gentle facial treatment in a clean clinic room, soft glowing diyas and fairy lights blurred in the background, gold and deep purple palette. Headline text: \"Diwali Glow, Done by Dermatologists\""+BASE,
+"Diwali safety awareness graphic: simple vector illustration of a hand being held under running tap water, next to a lit sparkler (phuljhadi) and diya in the corner, two columns of empty tick and cross boxes for do's and don'ts, palette of deep blue night with orange sparks. Leave space for Hindi text (added later). No text in the image."+BASE,
+"SHOOT BRIEF (real photo): Full Ojas Clinic team standing together at the clinic reception, dressed in festive or neat uniform, holding lit diyas, rangoli on the floor in front, warm light. FRAME PROMPT: Elegant Diwali border of marigold flowers and small golden diyas on a deep maroon background, empty photo slot in the center, space at the bottom for Hindi greeting text (added later)."+BASE,
+"Split-screen image: left side shows a hazy grey smoky city street after Diwali, right side shows the same Indian woman's face clean and fresh after washing, holding a gentle cleanser, gradient from smoky grey to fresh leaf green. Headline text: \"Smoke, Pollution & Your Skin After Diwali\""+BASE,
+"Clean illustration of an Indian person's neck back and underarm area with mild darker velvety skin, shown respectfully, with a 2x2 grid of simple icons on the right (razor, tight clothing, weighing scale, blood-drop test). Palette: warm grey and soft teal. Headline text: \"Dark Neck or Underarms? Find the Cause First\""+BASE,
+"Young Indian man in his late 20s looking in a mirror at a few early grey strands at his temples, modern bathroom, clean neutral palette with silver accents, thoughtful not sad expression. Leave the right side empty for Hindi headline (added later). No text in the image."+BASE,
+"Elegant pre-bridal planning graphic: Indian bride's hands with mehendi holding a small calendar, soft focus of bridal jewellery and a skincare consultation in the background, horizontal timeline with 4 empty milestone circles along the bottom, rose-pink, ivory and soft gold palette. Headline text: \"Your Pre-Bridal Skin Plan: Start 3 Months Early\""+BASE,
+"Winter skin care illustration: Indian woman in a cosy knit shawl applying moisturiser on her hands, a steaming cup of tea, window with morning winter mist, cool icy-blue and white palette, a jar of lip balm on the table. Leave space for Hindi headline (added later). No text in the image."+BASE,
+"Close-up beauty shot of an Indian woman's lips, natural slightly uneven darker pigmentation on the lips, a clear SPF lip balm tube beside, clean soft-peach background. Headline text: \"Dark Lips? What Causes Lip Pigmentation\""+BASE,
+"Clean medical illustration: cross-section diagram of skin layers showing a raised keloid scar growing beyond the wound edge, next to a simple drawing of an earlobe with a small keloid after piercing, palette of muted rose and slate. Headline text: \"Raised, Growing Scars? It Could Be a Keloid\""+BASE,
+"SHOOT BRIEF (real photos): 4 clean photos of Ojas Clinic: reception desk, doctor consultation room, treatment room, waiting area. FRAME PROMPT: Modern 4-step collage layout with numbered circles 1 to 4 connected by a thin line, white background with deep-green accents, empty photo slots in each step, space at top for Hindi headline (added later)."+BASE,
+"Soft illustration of an Indian woman's lower abdomen and hip area with faint silvery-white and a few pinkish stretch marks, tasteful and non-revealing (wearing a high-waist garment), soft lilac and cream palette. Headline text: \"Stretch Marks: What Treatment Can Do\""+BASE,
+"Clean graphic grid of 4 simple close-up illustrations of fingernails: a thick yellowish fungal nail, swollen red nail fold, pitted nail, and a brittle split nail, each in its own rounded box, neutral white background with dark teal accents. Headline text: \"Your Nails Can Show Skin Problems Too\""+BASE,
+"Modern comparison infographic: two columns labeled \"PRP\" and \"GFC\", each with a simple illustration of a blood test tube and a scalp with hair follicles, a subtle \"vs\" badge in the middle, palette of navy, white and warm gold. Headline text: \"PRP or GFC: Which Hair Therapy Is Right for You?\""+BASE,
+"Myth vs Fact card design: Indian man and woman looking at a hairbrush with some hair strands, four empty stacked rows each with a red cross icon on the left and green tick icon on the right, bold contrasting palette of deep indigo and bright mint (different from green-cream). Leave text areas empty for Hindi (added later). No text in the image."+BASE,
+"Grooming-themed graphic: well-groomed Indian man in his late 20s with a neat beard touching his clean face, bathroom mirror setting with a razor, face wash and moisturiser on the counter, deep forest-green and white palette with a sharp modern feel. Headline text: \"Skin Care for Men: Simple Routine, Better Skin\""+BASE,
+"VIDEO SHOT LIST (real footage, 30-45 sec, vertical 9:16 or 4:3): 1) Clinic building/signboard from outside, 2) walk into reception, 3) waiting area, 4) doctor greeting a patient (consent), 5) treatment room with equipment, 6) end on clinic logo and address card. THUMBNAIL FRAME PROMPT: Warm welcoming clinic interior photo slot with a play-button icon in the center, deep green and ivory frame, space for Hindi title (added later)."+BASE
+];
+
 const KEY="ojas-gbp-done";
 let done={}; try{done=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
@@ -475,7 +514,8 @@ function render(){
           <div><dt>Button (CTA)</dt><dd>${p.cta}</dd></div>
         </dl>
         <div class="cap" id="cap-${i}">${esc(p.cap)}</div>
-        <div class="cap-foot"><button type="button" data-i="${i}">Caption copy karo</button><span>${p.cap.length} / 1500 characters</span></div>
+        <div class="cap-foot"><button type="button" data-k="cap" data-i="${i}">Caption copy karo</button><span>${p.cap.length} / 1500 characters</span></div>
+        <div class="imgp"><div class="imgp-h"><span class="lbl">${/^(SHOOT|VIDEO)/.test(IMG[i])?"Photo/video brief + frame prompt":"Image prompt"}</span><button type="button" class="ghost" data-k="img" data-i="${i}">Prompt copy karo</button></div><div class="cap small" id="img-${i}">${esc(IMG[i])}</div></div>
       </div>`;
     list.appendChild(el);
   });
@@ -486,10 +526,11 @@ function render(){
 }
 document.getElementById("list").addEventListener("click",e=>{
   const b=e.target.closest("button[data-i]"); if(!b)return;
-  const i=+b.dataset.i;
-  const ok=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Caption copy karo",1500)};
-  const fallback=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("cap-"+i));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, ab Ctrl+C dabao"};
-  try{navigator.clipboard.writeText(P[i].cap).then(ok,fallback)}catch(err){fallback()}
+  const i=+b.dataset.i, k=b.dataset.k, label=b.textContent;
+  const text=k==="img"?IMG[i]:P[i].cap, node=document.getElementById((k==="img"?"img-":"cap-")+i);
+  const ok=()=>{b.textContent="Copied";setTimeout(()=>b.textContent=label,1500)};
+  const fallback=()=>{const r=document.createRange();r.selectNodeContents(node);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, ab Ctrl+C dabao"};
+  try{navigator.clipboard.writeText(text).then(ok,fallback)}catch(err){fallback()}
 });
 document.getElementById("list").addEventListener("change",e=>{
   if(e.target.type!=="checkbox")return;
@@ -498,5 +539,3 @@ document.getElementById("list").addEventListener("change",e=>{
 ["f-month","f-lang","f-status"].forEach(id=>document.getElementById(id).addEventListener("change",render));
 render();
 </script>
-
-</body></html>
