@@ -1,0 +1,502 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ojas Clinic GBP Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a working schedule — rules strip on top, filter bar, then one row per post (date rail | content | caption) */
+:root{
+  --bg:#F4F6F4; --surface:#FFFFFF; --ink:#18221E; --muted:#5B6A63; --line:#DCE3DE;
+  --accent:#1D5C47; --accent-soft:#E2EEE8; --fest:#A8620A; --fest-soft:#FBEFD9; --warn:#9A3B1E; --warn-soft:#F8E4DC;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Noto Sans","Noto Sans Devanagari", system-ui, -apple-system, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111815; --surface:#18211D; --ink:#E6EDE9; --muted:#9AABA3; --line:#2A3631;
+  --accent:#6CC3A0; --accent-soft:#1C3229; --fest:#E8A94A; --fest-soft:#33270F; --warn:#F09575; --warn-soft:#3A2019; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111815; --surface:#18211D; --ink:#E6EDE9; --muted:#9AABA3; --line:#2A3631;
+  --accent:#6CC3A0; --accent-soft:#1C3229; --fest:#E8A94A; --fest-soft:#33270F; --warn:#F09575; --warn-soft:#3A2019; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:32px 64px;display:grid;gap:28px}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,5vw,42px);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:var(--f-display);font-weight:600;font-size:20px;margin:0 0 10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lede{color:var(--muted);max-width:68ch;margin:8px 0 0}
+.stats{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-size:14px;color:var(--muted)}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.rules section{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;min-width:0}
+.rules ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
+.covered{display:flex;flex-wrap:wrap;gap:6px}
+.covered span{font-size:12.5px;padding:3px 9px;border-radius:99px;background:var(--warn-soft);color:var(--warn)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:2;border-bottom:1px solid var(--line)}
+.bar label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+select{font:inherit;font-size:14px;padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.count{margin-left:auto;font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.list{display:grid;gap:14px}
+.post{display:grid;grid-template-columns:92px minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.post.done{opacity:.55}
+.date{border-right:1px solid var(--line);padding:16px 10px;text-align:center;display:flex;flex-direction:column;gap:2px;align-items:center}
+.date .n{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.date .dd{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.date .mm{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.date .dw{font-size:12px;color:var(--muted)}
+.date label{margin-top:10px;font-size:11.5px;color:var(--muted);display:flex;gap:4px;align-items:center;cursor:pointer}
+.body{padding:16px 20px;display:grid;gap:10px;min-width:0}
+.top{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.top h3{font-family:var(--f-display);font-weight:600;font-size:19px;margin:0;flex:1 1 260px;text-wrap:balance}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:2px 8px;border-radius:5px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.tag.fest{background:var(--fest-soft);color:var(--fest)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 20px;font-size:13.5px}
+.meta div{min-width:0}
+.meta dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:2px 0 0}
+.cap{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px 12px;font-size:14px;white-space:pre-wrap;max-width:75ch}
+.cap-foot{display:flex;gap:10px;align-items:center;font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+button{font:inherit;font-size:13px;padding:6px 12px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.src{font-size:12.5px;color:var(--muted)}
+.src a{color:var(--accent)}
+@media (max-width:560px){.post{grid-template-columns:1fr}.date{flex-direction:row;border-right:0;border-bottom:1px solid var(--line);justify-content:flex-start;gap:10px;padding:10px 16px}.date label{margin:0 0 0 auto}.date .dd{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Google Business Profile · Ojas Clinic, Jabalpur</div>
+    <h1>30 naye posts · 2 Oct se 9 Dec 2026</h1>
+    <p class="lede">Hafte me 3 post (Mon / Wed / Fri). Har topic aisa chuna hai jo profile par abhi tak nahi aaya, ya naye angle se aa raha hai. Caption copy karo, design banao, post karo, aur "Posted" tick kar do.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="rules">
+    <section>
+      <h2>Post karne se pehle</h2>
+      <ul>
+        <li>Caption me <b>phone number mat daalna</b>. GBP aise posts reject kar deta hai. Number button (Call now) me already hai.</li>
+        <li>"Best", "100% result", "guaranteed", "permanent cure" jaise words avoid karo.</li>
+        <li>Same image ya same caption dobara upload mat karo. 5 Signs wali post isi wajah se reject hui thi (shayad).</li>
+        <li>Template ka color/layout badlo. Pichhle 2 mahine ke saare posts ek hi green-cream design me hain.</li>
+        <li><span class="tag warn">Clinic se confirm</span> wale posts tabhi daalo jab clinic ye service sach me deta ho.</li>
+        <li>"Learn more" CTA ke liye website ka service page link chahiye. Link na ho toh "Call now" use karo.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Ye topics already ho chuke hain, abhi repeat nahi</h2>
+      <div class="covered">
+        <span>Best Dermatologist / Skin Doctor in Jabalpur (8x)</span><span>Acne / Pimples (7x)</span><span>Hair fall / Hair thinning</span><span>Hair transplant (5–6x)</span><span>Healthy skin / Daily care tips</span><span>Skin type</span><span>Common skin problems</span><span>5 Signs to visit</span><span>Myth vs Fact (sunscreen)</span><span>Oily skin & pores</span><span>Sensitive skin</span><span>Pigmentation</span><span>Vitiligo</span><span>Botox</span><span>Dermal fillers (3x)</span><span>Skin booster</span><span>HIFU</span><span>Chemical peel</span><span>Microneedling</span><span>Tattoo removal</span><span>Mole removal</span><span>Anti-aging</span><span>Dark circles</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="bar" role="group" aria-label="Filters">
+    <label for="f-month">Month
+      <select id="f-month"><option value="">Sab</option><option value="Oct">October</option><option value="Nov">November</option><option value="Dec">December</option></select></label>
+    <label for="f-lang">Language
+      <select id="f-lang"><option value="">Sab</option><option value="Hindi">Hindi</option><option value="English">English</option></select></label>
+    <label for="f-status">Status
+      <select id="f-status"><option value="">Sab</option><option value="todo">Baaki</option><option value="done">Posted</option></select></label>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="list" id="list"></div>
+
+  <p class="src">Festival dates: <a href="https://www.happyfares.in/blog/diwali-festive-season-flight-guide-2026/" target="_blank" rel="noopener">HappyFares 2026 festive calendar</a> (Navratri ~11 Oct, Dussehra 20 Oct, Dhanteras 6 Nov, Diwali 8 Nov). Local panchang se ek baar confirm kar lena.</p>
+</div>
+
+<script>
+const P = [
+{d:"2026-10-02",lang:"Hindi",topic:"Fungal infection (daad, khujli)",cat:"Skin condition",fest:"Monsoon ke baad",format:"Naya template (blue-white), close-up illustration",head:"बारिश के बाद खुजली और दाद? इसे नज़रअंदाज़ न करें",cta:"Call now",
+cap:`बारिश के बाद नमी और पसीने की वजह से फंगल इन्फेक्शन (दाद, खुजली, लाल गोल चकत्ते) बहुत आम हो जाता है। अक्सर लोग केमिस्ट से क्रीम लेकर लगा लेते हैं, जिससे इन्फेक्शन कुछ दिन दबता है और फिर लौट आता है।
+
+ध्यान दें अगर:
+• खुजली रात में ज़्यादा होती है
+• चकत्ता किनारों से फैल रहा है
+• घर में दूसरे लोगों को भी हो रहा है
+
+Ojas Clinic, जबलपुर में त्वचा रोग विशेषज्ञ जांच करके सही कारण और सही इलाज बताते हैं, ताकि इन्फेक्शन जड़ से ठीक हो सके। स्टेरॉयड वाली क्रीम खुद से न लगाएं।
+
+आज ही कंसल्टेशन के लिए कॉल करें।`},
+{d:"2026-10-05",lang:"English",topic:"Meet Dr. Hitesh Lokwani",cat:"Doctor intro",format:"Real photo of doctor in clinic (no template)",head:"Meet Dr. Hitesh Lokwani",cta:"Book",
+cap:`Meet Dr. Hitesh Lokwani, Senior Dermatologist at Ojas Clinic, Jabalpur.
+
+Patients come to Dr. Hitesh for acne and acne scars, pigmentation, hair loss, laser treatments and hair restoration. His approach is simple: understand the cause first, then plan a treatment that fits your skin, your routine and your budget.
+
+What to expect at your consultation:
+• A detailed look at your skin, scalp or hair concern
+• A clear explanation of what is causing it
+• A step-by-step plan with realistic timelines
+
+Book your consultation at Ojas Clinic, Narmada Road, Jabalpur.`},
+{d:"2026-10-07",lang:"English",topic:"Dandruff & itchy scalp",cat:"Scalp",fest:"",format:"Template, new layout: 3-step checklist",head:"Dandruff that keeps coming back?",cta:"Call now",
+cap:`Dandruff that keeps coming back is not just a "dry scalp" problem.
+
+Flaking, itching and redness on the scalp can be linked to seborrheic dermatitis, a fungal overgrowth, or even psoriasis. Each one needs a different approach, which is why changing shampoos every month often does not help.
+
+See a dermatologist if you notice:
+• Yellowish, greasy flakes
+• Red patches along the hairline or behind the ears
+• Itching that disturbs sleep
+• Hair fall along with dandruff
+
+At Ojas Clinic, Jabalpur, our dermatologists examine the scalp and suggest a treatment plan that controls flaking and protects your hair.`},
+{d:"2026-10-09",lang:"Hindi",topic:"Navratri festive glow: 10 din ki skin prep",cat:"Seasonal",fest:"Navratri (~11 Oct)",format:"Festive template (saffron + maroon)",head:"नवरात्रि में चमकती त्वचा के लिए 10 दिन का प्लान",cta:"Book",
+cap:`नवरात्रि आने वाली है! गरबा, डांडिया और लगातार मेकअप से पहले अपनी त्वचा को तैयार करें।
+
+नवरात्रि से पहले ये करें:
+• रोज़ सनस्क्रीन लगाएं, दिन में भी
+• भरपूर पानी पिएं और नींद पूरी करें
+• नया फेस प्रोडक्ट त्योहार से ठीक पहले ट्राय न करें
+• पिंपल को दबाएं नहीं, इससे दाग रह सकते हैं
+
+अगर आप त्योहार से पहले ग्लो ट्रीटमेंट या स्किन चेकअप करवाना चाहते हैं, तो Ojas Clinic, जबलपुर में त्वचा विशेषज्ञ आपकी स्किन देखकर सही ट्रीटमेंट बताएंगे।
+
+आपको और आपके परिवार को नवरात्रि की शुभकामनाएं!`},
+{d:"2026-10-12",lang:"English",topic:"Warts & skin tags",cat:"Procedure",fest:"",format:"Illustration template (no real patient photo)",head:"Warts & Skin Tags: Safe Removal",cta:"Call now",confirm:true,
+cap:`Small growths on the neck, underarms or face? These are often skin tags or warts.
+
+Skin tags are soft, harmless flaps of skin. Warts are caused by a virus and can spread to other areas or other people. Cutting, tying or burning them at home can cause infection, bleeding and scars.
+
+At Ojas Clinic, Jabalpur, our dermatologist first confirms what the growth is, then removes it with a suitable in-clinic procedure. Most removals are quick and done under local numbing.
+
+Please get any growth that changes colour, bleeds or grows quickly checked by a dermatologist.`},
+{d:"2026-10-14",lang:"English",topic:"Eczema (dry, itchy patches)",cat:"Skin condition",fest:"",format:"Template, soft neutral palette",head:"Dry, Itchy, Red Patches? It Could Be Eczema",cta:"Call now",
+cap:`Eczema (atopic dermatitis) makes the skin dry, itchy and inflamed. It often shows up on the elbows, knees, hands, neck and face, and can flare with weather changes, soaps, stress or dust.
+
+Common signs:
+• Intense itching, especially at night
+• Rough, dry or scaly skin
+• Red or darkened patches
+• Skin that cracks or oozes when scratched
+
+Eczema can be controlled well with the right skincare routine and medical treatment. Our dermatologists at Ojas Clinic, Jabalpur help you identify triggers and build a plan to reduce flare-ups.
+
+Call to book a skin consultation.`},
+{d:"2026-10-16",lang:"Hindi",topic:"Garba ke baad makeup hatane ka sahi tarika",cat:"Seasonal tips",fest:"Navratri",format:"Tips card, festive colors",head:"गरबा के बाद मेकअप ऐसे हटाएं",cta:"Call now",
+cap:`गरबा की रात के बाद थकान में मेकअप लगाकर सो जाना आम है, पर यही आदत पिंपल्स, बंद रोमछिद्र और रूखेपन की वजह बनती है।
+
+सोने से पहले ये 4 स्टेप:
+1. माइसेलर वॉटर या क्लींज़िंग ऑयल से मेकअप हटाएं
+2. हल्के फेसवॉश से चेहरा धोएं
+3. आंखों का मेकअप रगड़कर नहीं, हल्के हाथ से साफ करें
+4. मॉइस्चराइज़र लगाकर ही सोएं
+
+अगर त्योहार के दौरान पिंपल्स या रैश हो जाएं, तो खुद से कोई क्रीम न लगाएं। Ojas Clinic, जबलपुर में त्वचा विशेषज्ञ से सलाह लें।`},
+{d:"2026-10-19",lang:"English",topic:"Laser Hair Reduction: FAQs",cat:"Treatment FAQ",fest:"",format:"FAQ card (Q&A layout)",head:"Laser Hair Reduction: Your Questions Answered",cta:"Book",
+cap:`Thinking about laser hair reduction? Here are the questions we hear most at Ojas Clinic, Jabalpur.
+
+How many sessions are needed?
+Most people need 6 to 8 sessions, spaced a few weeks apart. The exact number depends on your hair type and the area treated.
+
+Does it hurt?
+Most patients describe it as a quick snapping or warm sensation. Cooling is used during the session.
+
+Is it safe for Indian skin?
+With the right laser settings and an experienced team, it is suitable for Indian skin types.
+
+Which areas can be treated?
+Face, underarms, arms, legs, back and more.
+
+Book a consultation to check if laser hair reduction is right for you.`},
+{d:"2026-10-21",lang:"English",topic:"Psoriasis",cat:"Skin condition",fest:"",format:"Template, calm blue-grey palette",head:"Psoriasis Is Not Contagious. It Is Treatable.",cta:"Call now",
+cap:`Psoriasis causes thick, red or silvery scaly patches, often on the scalp, elbows, knees and lower back. It is a long-term condition of the immune system, and it is not contagious.
+
+Many people hide their skin because of it. With the right treatment, flare-ups can be reduced and the skin can stay clear for longer periods.
+
+See a dermatologist if you have:
+• Scaly patches that keep returning
+• Severe dandruff-like flaking on the scalp
+• Pitted or thickened nails
+• Joint pain along with skin patches
+
+Our dermatologists at Ojas Clinic, Jabalpur create long-term care plans for psoriasis. Call to book your visit.`},
+{d:"2026-10-23",lang:"English",topic:"Meet Dr. Shweta Lokwani",cat:"Doctor intro",fest:"",format:"Real photo of doctor with patient (consent)",head:"Meet Dr. Shweta Lokwani",cta:"Book",
+cap:`Meet Dr. Shweta Lokwani, Dermatologist at Ojas Clinic, Jabalpur.
+
+Dr. Shweta sees patients for skin, hair and aesthetic concerns, including pigmentation, acne, hair fall and skin rejuvenation treatments. Many women patients find it easier to discuss concerns like facial hair, melasma or hair thinning with her.
+
+At every consultation you get:
+• Time to explain your concern properly
+• An honest explanation of what can and cannot be achieved
+• A treatment plan that suits your skin and lifestyle
+
+Book your appointment at Ojas Clinic, Narmada Road, Jabalpur.`},
+{d:"2026-10-26",lang:"English",topic:"Melasma",cat:"Skin condition",fest:"",format:"Template, new layout: split face illustration",head:"Melasma: Why Those Brown Patches Keep Returning",cta:"Call now",
+cap:`Brown or grey-brown patches on the cheeks, forehead, nose or upper lip are often melasma. It is common in women and is triggered by sun exposure, hormonal changes and heat.
+
+Why it keeps coming back:
+• Sun and heat restart pigment production
+• Home remedies and bleaching creams can irritate the skin and make it worse
+• Stopping treatment too early
+
+Melasma needs a long-term plan: daily sun protection, prescription creams and, where suitable, in-clinic treatments. Our dermatologists at Ojas Clinic, Jabalpur help you control melasma safely.
+
+Avoid using steroid creams without a doctor's advice.`},
+{d:"2026-10-28",lang:"Hindi",topic:"Alopecia areata (gol patch me baal jhadna)",cat:"Hair",fest:"",format:"Illustration template (scalp diagram)",head:"सिर में गोल पैच में बाल झड़ रहे हैं?",cta:"Call now",
+cap:`अगर सिर, दाढ़ी या भौंहों में अचानक सिक्के जैसे गोल पैच में बाल झड़ जाएं, तो यह एलोपेसिया एरियाटा हो सकता है।
+
+यह सामान्य हेयर फॉल से अलग है। इसमें शरीर की इम्यूनिटी बालों की जड़ों पर असर करती है। अच्छी बात यह है कि सही समय पर इलाज से बाल अक्सर वापस आ सकते हैं।
+
+डॉक्टर को दिखाएं अगर:
+• एक या ज़्यादा गोल गंजे पैच दिखें
+• पैच बढ़ रहा हो
+• दाढ़ी या भौंहों में भी पैच हों
+
+Ojas Clinic, जबलपुर में त्वचा और बाल विशेषज्ञ जांच करके सही इलाज बताते हैं। घरेलू नुस्खों में समय न गंवाएं।`},
+{d:"2026-10-30",lang:"Hindi",topic:"Skin allergy / pitti (urticaria)",cat:"Skin condition",fest:"",format:"Template, new layout: symptoms list",head:"अचानक लाल चकत्ते और तेज़ खुजली? यह पित्ती हो सकती है",cta:"Call now",
+cap:`शरीर पर अचानक उभरे हुए लाल चकत्ते, जो कुछ घंटों में जगह बदलते हैं और बहुत खुजली करते हैं, उन्हें पित्ती (अर्टिकेरिया) कहते हैं।
+
+इसके कारण हो सकते हैं: कोई खाना, दवा, कीड़े का काटना, इन्फेक्शन या मौसम में बदलाव। कई बार कारण पता नहीं चलता और पित्ती बार-बार होती है।
+
+तुरंत इमरजेंसी में जाएं अगर:
+• होंठ, आंखें या गला सूजने लगे
+• सांस लेने में तकलीफ हो
+
+बार-बार होने वाली पित्ती के लिए Ojas Clinic, जबलपुर में त्वचा विशेषज्ञ से जांच करवाएं, ताकि ट्रिगर पहचानकर सही इलाज हो सके।`},
+{d:"2026-11-02",lang:"English",topic:"Pre-Diwali glow facial (HydraFacial / medi-facial)",cat:"Treatment",fest:"Diwali (8 Nov)",format:"Festive template, diya motif",head:"Diwali Glow, Done by Dermatologists",cta:"Book",confirm:true,
+cap:`Diwali is less than a week away. Want fresh, glowing skin for the festivities?
+
+A dermatologist-supervised medi-facial deep-cleanses pores, removes dead skin and hydrates the skin, with no downtime. You can walk out and go straight back to your day.
+
+Good to know:
+• Book at least 3 to 5 days before a big event
+• Avoid new home products just before the festival
+• Continue sunscreen after the treatment
+
+Book your pre-Diwali glow session at Ojas Clinic, Jabalpur. Slots fill up fast in festive week.`},
+{d:"2026-11-04",lang:"Hindi",topic:"Pataakhon se jalne par first aid",cat:"Safety / seasonal",fest:"Diwali",format:"Simple safety card, do's & don'ts",head:"पटाखों से जल जाएं तो क्या करें, क्या नहीं",cta:"Call now",
+cap:`दिवाली की खुशियों के बीच सावधानी भी ज़रूरी है। पटाखों से हल्की जलन हो जाए तो ये करें:
+
+क्या करें:
+• जली हुई जगह पर 15-20 मिनट तक सामान्य (ठंडा, बर्फ नहीं) पानी डालें
+• अंगूठी, घड़ी या तंग कपड़े तुरंत हटा दें
+• साफ कपड़े से ढकें
+
+क्या न करें:
+• टूथपेस्ट, घी, हल्दी या बर्फ न लगाएं
+• छाले न फोड़ें
+
+बड़ी जलन, चेहरे, आंखों या हाथों पर जलन हो तो तुरंत अस्पताल जाएं। हल्की जलन ठीक होने के बाद दाग या रंग बदलने की समस्या के लिए Ojas Clinic, जबलपुर में त्वचा विशेषज्ञ से सलाह लें।
+
+सुरक्षित दिवाली मनाएं!`},
+{d:"2026-11-06",lang:"Hindi",topic:"Dhanteras / Diwali wishes from Ojas team",cat:"Festival greeting",fest:"Dhanteras / Diwali",format:"Real team photo in clinic with diyas",head:"Ojas Clinic परिवार की ओर से शुभ दीपावली",cta:"Call now",
+cap:`धनतेरस और दीपावली के पावन अवसर पर Ojas Clinic, जबलपुर की पूरी टीम की ओर से आपको और आपके परिवार को हार्दिक शुभकामनाएं।
+
+सबसे बड़ा धन अच्छी सेहत है। इस दिवाली अपनी त्वचा और बालों का भी ख्याल रखें।
+
+डॉ. हितेश लोकवानी, डॉ. श्वेता लोकवानी और Ojas Clinic टीम
+
+(त्योहार के दौरान क्लिनिक का समय बदलने पर यहां अपडेट करें।)`},
+{d:"2026-11-09",lang:"English",topic:"Post-Diwali pollution & smoke skin care",cat:"Seasonal tips",fest:"After Diwali",format:"Tips card, grey-to-green gradient",head:"Smoke, Pollution & Your Skin After Diwali",cta:"Call now",
+cap:`The days after Diwali bring smoke, dust and poor air quality. Pollution particles settle on the skin and can cause dullness, breakouts, irritation and uneven tone.
+
+Simple steps for the next two weeks:
+• Wash your face gently twice a day, not more
+• Use a moisturiser to protect the skin barrier
+• Keep using sunscreen, even on hazy days
+• Cover your face with a mask or scarf when outdoors
+• Avoid harsh scrubs
+
+If you notice rashes, sudden breakouts or itching that does not settle, visit Ojas Clinic, Jabalpur for a dermatologist consultation.`},
+{d:"2026-11-11",lang:"English",topic:"Underarm & neck darkening",cat:"Skin concern",fest:"",format:"Template, new layout: causes grid",head:"Dark Neck or Underarms? Find the Cause First",cta:"Call now",
+cap:`Dark, velvety skin on the neck, underarms or inner thighs is very common. It can be caused by friction, shaving, tight clothing, or by a condition called acanthosis nigricans, which is sometimes linked to weight or blood sugar changes.
+
+Scrubbing hard or using bleaching products usually makes it worse.
+
+At Ojas Clinic, Jabalpur, our dermatologist checks the cause and may suggest tests if needed. Treatment can include medicated creams, peels or laser options depending on your skin.
+
+Call to book your consultation.`},
+{d:"2026-11-13",lang:"Hindi",topic:"Kam umar me safed baal",cat:"Hair",fest:"",format:"Template, new layout: before-age comparison illustration",head:"कम उम्र में सफेद बाल? कारण जानें",cta:"Call now",
+cap:`20-30 की उम्र में ही बाल सफेद होने लगे हैं? कम उम्र में बाल सफेद होने के कई कारण हो सकते हैं:
+
+• परिवार में किसी को जल्दी सफेद बाल होना
+• विटामिन B12, आयरन या थायरॉइड से जुड़ी कमी
+• तनाव और नींद की कमी
+• धूम्रपान
+
+कुछ मामलों में कारण पहचानकर उसका इलाज करने से आगे सफेदी की रफ्तार धीमी हो सकती है। बार-बार केमिकल डाई लगाने से पहले एक बार जांच ज़रूर करवाएं।
+
+Ojas Clinic, जबलपुर में बाल विशेषज्ञ से सलाह के लिए कॉल करें।`},
+{d:"2026-11-16",lang:"English",topic:"Pre-bridal skin & hair plan",cat:"Seasonal",fest:"Wedding season",format:"Elegant template (rose + gold), timeline graphic",head:"Your Pre-Bridal Skin Plan: Start 3 Months Early",cta:"Book",
+cap:`Wedding in the next few months? The best bridal glow is planned, not rushed.
+
+A simple timeline:
+3 months before: Skin and hair consultation. Start treating acne, pigmentation or hair fall.
+6 to 8 weeks before: Laser hair reduction sessions, peels or glow treatments if suitable.
+2 weeks before: Only gentle treatments. Nothing new.
+Last week: Hydration, sleep and your regular routine.
+
+Grooms are welcome too.
+
+Book your pre-bridal consultation at Ojas Clinic, Jabalpur and get a plan made around your wedding date.`},
+{d:"2026-11-18",lang:"Hindi",topic:"Sardi me rukhi tvacha",cat:"Seasonal tips",fest:"Winter",format:"Tips card, winter blue",head:"सर्दियों में रूखी और फटी त्वचा से ऐसे बचें",cta:"Call now",
+cap:`सर्दी शुरू होते ही त्वचा रूखी, खिंची हुई और खुजलीदार हो जाती है। एड़ियां और होंठ फटने लगते हैं।
+
+सर्दियों के लिए आसान नियम:
+• बहुत गर्म पानी से न नहाएं
+• नहाने के 3 मिनट के अंदर मॉइस्चराइज़र लगाएं
+• साबुन की जगह माइल्ड क्लींज़र इस्तेमाल करें
+• धूप में सनस्क्रीन लगाना न भूलें
+• पानी पीते रहें
+
+अगर खुजली बहुत ज़्यादा हो, त्वचा फटकर खून आए या चकत्ते बनें, तो यह एक्ज़िमा हो सकता है। Ojas Clinic, जबलपुर में त्वचा विशेषज्ञ से जांच करवाएं।`},
+{d:"2026-11-20",lang:"English",topic:"Lip pigmentation (dark lips)",cat:"Skin concern",fest:"",format:"Template, close-up illustration",head:"Dark Lips? What Causes Lip Pigmentation",cta:"Call now",
+cap:`Dark or patchy lips can be caused by sun exposure, smoking, lip licking, dehydration, certain lipsticks, or some medicines.
+
+What helps:
+• Use a lip balm with SPF daily
+• Stop licking or biting your lips
+• Patch-test new lipsticks
+• Avoid home bleaching remedies
+
+For stubborn lip pigmentation, a dermatologist can suggest creams or in-clinic treatments after checking the cause. Visit Ojas Clinic, Jabalpur for a consultation.`},
+{d:"2026-11-23",lang:"English",topic:"Keloids & raised scars",cat:"Skin concern",fest:"",format:"Illustration template (skin layer diagram)",head:"Raised, Growing Scars? It Could Be a Keloid",cta:"Call now",confirm:true,
+cap:`A keloid is a thick, raised scar that grows beyond the original wound. It commonly forms after ear piercing, acne, surgery or even a small cut, especially on the chest, shoulders and ears.
+
+Keloids can itch, feel tender and keep growing. Removing them without a proper plan can cause them to come back bigger.
+
+At Ojas Clinic, Jabalpur, our dermatologists treat keloids with a planned approach that may include in-clinic injections and other procedures to flatten the scar and reduce itching.
+
+Call to book your consultation.`},
+{d:"2026-11-25",lang:"Hindi",topic:"Ojas Clinic me pehli visit: kya hota hai",cat:"Clinic / trust",fest:"",format:"Real clinic photos: reception, consultation room",head:"Ojas Clinic में आपकी पहली विज़िट",cta:"Book",
+cap:`पहली बार त्वचा विशेषज्ञ के पास जाने में झिझक होती है? जानिए Ojas Clinic, जबलपुर में आपकी पहली विज़िट में क्या होता है:
+
+1. रिसेप्शन पर रजिस्ट्रेशन
+2. डॉक्टर आपकी समस्या, पुराना इलाज और दवाइयों के बारे में पूछते हैं
+3. त्वचा, बाल या स्कैल्प की जांच
+4. समस्या का कारण और इलाज के विकल्प आसान भाषा में समझाए जाते हैं
+5. ज़रूरत हो तो ट्रीटमेंट प्लान और खर्च की जानकारी
+
+साथ लाएं: पुरानी पर्चियां और जो क्रीम/दवाइयां आप इस्तेमाल कर रहे हैं।
+
+अपॉइंटमेंट बुक करें।`},
+{d:"2026-11-27",lang:"English",topic:"Stretch marks",cat:"Skin concern",fest:"",format:"Template, soft palette",head:"Stretch Marks: What Treatment Can Do",cta:"Call now",
+cap:`Stretch marks appear when the skin stretches quickly, during pregnancy, weight change, growth spurts or gym bulking. New marks look pink or red; older ones turn white or silvery.
+
+Creams alone rarely make a big difference to older marks. In-clinic treatments can help improve texture and colour, especially when started early.
+
+Our dermatologists at Ojas Clinic, Jabalpur assess your stretch marks and explain which options suit your skin, how many sessions you may need, and what results are realistic.
+
+Call to book a consultation.`},
+{d:"2026-11-30",lang:"English",topic:"Nail problems",cat:"Skin condition",fest:"",format:"Template, new layout: nail signs grid",head:"Your Nails Can Show Skin Problems Too",cta:"Call now",
+cap:`Dermatologists treat nails too. Changes in your nails can point to infection or skin conditions.
+
+Get your nails checked if you notice:
+• Thick, yellow or crumbly nails (often fungal infection)
+• Pain, swelling or pus around the nail
+• Pits, ridges or lifting of the nail
+• Nails that break easily
+
+Nail fungus rarely clears with home remedies and needs proper treatment for several weeks.
+
+Visit Ojas Clinic, Jabalpur for a nail and skin check-up.`},
+{d:"2026-12-02",lang:"English",topic:"PRP vs GFC for hair",cat:"Hair treatment comparison",fest:"",format:"Comparison table graphic",head:"PRP or GFC: Which Hair Therapy Is Right for You?",cta:"Book",confirm:true,
+cap:`PRP and GFC are both in-clinic therapies that use growth factors from your own blood to support hair growth.
+
+PRP (Platelet Rich Plasma): Plasma rich in platelets is prepared from your blood and injected into the scalp.
+
+GFC (Growth Factor Concentrate): Growth factors are concentrated from your blood and used on the scalp.
+
+Both may help with thinning hair and early hair fall when combined with the right medicines and diet. Which one suits you depends on your hair loss pattern and scalp condition.
+
+Book a hair consultation at Ojas Clinic, Jabalpur to find out which option fits you.`},
+{d:"2026-12-04",lang:"Hindi",topic:"Baal jhadne se jude myths",cat:"Myth vs Fact",fest:"",format:"Myth vs Fact card, new colors (not the old sunscreen design)",head:"बाल झड़ने से जुड़े 4 मिथक",cta:"Call now",
+cap:`बाल झड़ने को लेकर बहुत सी गलतफहमियां हैं। आइए सच जानें:
+
+मिथक: रोज़ तेल लगाने से बाल झड़ना रुक जाता है।
+सच: तेल बालों को मुलायम रखता है, पर झड़ने का कारण ठीक नहीं करता।
+
+मिथक: टोपी या हेलमेट पहनने से गंजापन होता है।
+सच: सामान्य रूप से नहीं, बस उसे साफ रखें।
+
+मिथक: रोज़ 50-100 बाल गिरना बीमारी है।
+सच: इतना गिरना सामान्य है।
+
+मिथक: बाल झड़ना सिर्फ उम्र से होता है।
+सच: थायरॉइड, आयरन की कमी, तनाव और हार्मोन भी कारण हो सकते हैं।
+
+सही कारण जानने के लिए Ojas Clinic, जबलपुर में जांच करवाएं।`},
+{d:"2026-12-07",lang:"English",topic:"Men's skin & beard care (grooms too)",cat:"Men",fest:"Wedding season",format:"Template, dark green + white, male model",head:"Skin Care for Men: Simple Routine, Better Skin",cta:"Book",
+cap:`Men's skin is thicker and oilier, and daily shaving adds irritation. Common concerns we see: razor bumps, ingrown beard hair, oily skin, pigmentation and patchy beard.
+
+A simple routine:
+• Gentle face wash, morning and night
+• Shave with the hair, not against it
+• Light moisturiser and sunscreen every day
+
+Getting married this season? Start a groom skin plan 6 to 8 weeks before the wedding.
+
+Book a consultation at Ojas Clinic, Jabalpur for skin, beard and hair concerns.`},
+{d:"2026-12-09",lang:"Hindi",topic:"Ojas Clinic ke andar ek nazar (video)",cat:"Clinic / trust",fest:"",format:"Short video (30–45 sec) clinic walkthrough",head:"Ojas Clinic, जबलपुर: अंदर से देखें",cta:"Book",
+cap:`Ojas Clinic, जबलपुर के अंदर एक नज़र डालिए। रिसेप्शन, कंसल्टेशन रूम और ट्रीटमेंट एरिया, जहां डॉ. हितेश लोकवानी और डॉ. श्वेता लोकवानी त्वचा, बाल और लेज़र से जुड़ी समस्याओं का इलाज करते हैं।
+
+हमारा ध्यान साफ-सफाई, आपकी प्राइवेसी और हर मरीज़ को पूरा समय देने पर रहता है।
+
+पता: Ojas Imperia, दूसरी मंज़िल, रामपुर चौक के पास, नर्मदा रोड, जबलपुर।
+
+अपॉइंटमेंट बुक करें।`}
+];
+
+const KEY="ojas-gbp-done";
+let done={}; try{done=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
+const M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const W=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  const fm=document.getElementById("f-month").value, fl=document.getElementById("f-lang").value, fs=document.getElementById("f-status").value;
+  const list=document.getElementById("list"); list.innerHTML="";
+  let shown=0;
+  P.forEach((p,i)=>{
+    const dt=new Date(p.d+"T00:00:00"); const mon=M[dt.getMonth()];
+    const isDone=!!done[p.d];
+    if(fm&&mon!==fm)return; if(fl&&p.lang!==fl)return;
+    if(fs==="done"&&!isDone)return; if(fs==="todo"&&isDone)return;
+    shown++;
+    const el=document.createElement("article"); el.className="post"+(isDone?" done":"");
+    el.innerHTML=`
+      <div class="date">
+        <span class="n">#${String(i+1).padStart(2,"0")}</span>
+        <span class="dd">${dt.getDate()}</span><span class="mm">${mon}</span><span class="dw">${W[dt.getDay()]}</span>
+        <label for="c-${p.d}"><input type="checkbox" id="c-${p.d}" ${isDone?"checked":""}> Posted</label>
+      </div>
+      <div class="body">
+        <div class="top"><h3>${esc(p.topic)}</h3>
+          <div class="tags"><span class="tag">${p.lang}</span><span class="tag">${esc(p.cat)}</span>${p.fest?`<span class="tag fest">${esc(p.fest)}</span>`:""}${p.confirm?`<span class="tag warn">Clinic se confirm</span>`:""}</div></div>
+        <dl class="meta">
+          <div><dt>Graphic par headline</dt><dd>${esc(p.head)}</dd></div>
+          <div><dt>Design format</dt><dd>${esc(p.format)}</dd></div>
+          <div><dt>Button (CTA)</dt><dd>${p.cta}</dd></div>
+        </dl>
+        <div class="cap" id="cap-${i}">${esc(p.cap)}</div>
+        <div class="cap-foot"><button type="button" data-i="${i}">Caption copy karo</button><span>${p.cap.length} / 1500 characters</span></div>
+      </div>`;
+    list.appendChild(el);
+  });
+  document.getElementById("count").textContent=`${shown} post dikh rahe hain`;
+  const n=Object.values(done).filter(Boolean).length;
+  const hi=P.filter(p=>p.lang==="Hindi").length;
+  document.getElementById("stats").innerHTML=`<span><b>${P.length}</b> posts</span><span><b>${hi}</b> Hindi · <b>${P.length-hi}</b> English</span><span><b>${P.filter(p=>p.confirm).length}</b> clinic se confirm karne hain</span><span><b>${n}</b> / ${P.length} posted</span>`;
+}
+document.getElementById("list").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-i]"); if(!b)return;
+  const i=+b.dataset.i;
+  const ok=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Caption copy karo",1500)};
+  const fallback=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("cap-"+i));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, ab Ctrl+C dabao"};
+  try{navigator.clipboard.writeText(P[i].cap).then(ok,fallback)}catch(err){fallback()}
+});
+document.getElementById("list").addEventListener("change",e=>{
+  if(e.target.type!=="checkbox")return;
+  const d=e.target.id.slice(2); done[d]=e.target.checked; save(); render();
+});
+["f-month","f-lang","f-status"].forEach(id=>document.getElementById(id).addEventListener("change",render));
+render();
+</script>
+
+</body></html>
